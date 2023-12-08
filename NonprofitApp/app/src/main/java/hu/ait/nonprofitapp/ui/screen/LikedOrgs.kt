@@ -68,12 +68,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
-import hu.ait.shoppinglist.R
 
-import hu.ait.shoppinglist.ui.screen.ShoppingViewModel
-import hu.ait.shoppinglist.data.ShoppingItem
-import hu.ait.shoppinglist.data.ShoppingType
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

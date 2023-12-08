@@ -18,12 +18,15 @@ data class NonprofitItem(
 enum class NonprofitType {
     None, Book, Food, Electronic;
 
+    /*
     //returns a drawable
     fun getIcon(): Int {
         return if (this == Book) R.drawable.book
         else if (this == Food) R.drawable.food
         else R.drawable.electronics
     }
+
+     */
 
 }
 
