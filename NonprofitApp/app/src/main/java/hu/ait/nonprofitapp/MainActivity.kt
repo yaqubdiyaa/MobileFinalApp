@@ -10,6 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import hu.ait.nonprofitapp.ui.screen.LoginScreen
 import hu.ait.nonprofitapp.ui.theme.NonprofitAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,25 +27,31 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                   NavGraph()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
+
 @Composable
-fun GreetingPreview() {
-    NonprofitAppTheme {
-        Greeting("Android")
+fun NavGraph(
+    navController: NavHostController = rememberNavController(),
+) {
+    NavHost(
+        navController = navController,
+        startDestination = "loginscreen"
+    ) {
+        composable("loginscreen") {
+            LoginScreen(
+                onLoginSuccess = {
+                    navController.navigate("likedorgs")
+                }
+            )
+        }
     }
 }
+
+
