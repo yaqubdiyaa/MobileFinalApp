@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">NonprofitApp</string>
+    <string name="enter_name">Enter Your Name</string>
+    <string name="create_profile">Create Profile</string>
+    <string name="bio">Bio</string>
+
 </resources>
