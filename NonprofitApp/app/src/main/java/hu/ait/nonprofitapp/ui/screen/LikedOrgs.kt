@@ -134,9 +134,6 @@ fun LikedOrgs(
                     ShoppingCard(
                         shoppingItem = it,
                         onRemoveItem = { nonprofitViewModel.removeShoppingItem(it) },
-                        onShoppingCheckChange = { checkState ->
-                            nonprofitViewModel.changeShoppingState(it, checkState)
-                        }
                     )
                 }
             }
@@ -147,8 +144,7 @@ fun LikedOrgs(
 @Composable
 fun ShoppingCard(
                 shoppingItem: NonprofitItem,
-                 onRemoveItem: () -> Unit,
-                 onShoppingCheckChange: (Boolean) -> Unit = {},
+                 onRemoveItem: () -> Unit
 )
 {
     Card(
@@ -304,6 +300,20 @@ private fun openDonate(
 }
 }
 
+//TODO is this needed
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+public fun AddToLiked(
+    nonprofitViewModel: OrgViewModel = hiltViewModel(),
+    //TODO figure out if you are passing in name or the full nonprofitItem?
+    //or are you creating the item here
+    //actually i think you should pass in the full item
+    nonprofitToAdd: NonprofitItem? = null
+) {
+    AddNewShoppingForm(nonprofitViewModel = nonprofitViewModel,
+        {}, nonprofitToAdd
+    )
+}
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

@@ -37,13 +37,19 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.lhoyong.swiper.Swiper
 import com.github.lhoyong.swiper.rememberSwiperState
 import hu.ait.nonprofitapp.R
+import hu.ait.nonprofitapp.data.NonprofitItem
+import hu.ait.nonprofitapp.data.NonprofitType
 
 @ExperimentalMaterial3Api
 @Composable
-fun MySwipePage() {
+fun MySwipePage(
+    nonprofitViewModel: OrgViewModel = hiltViewModel(),
+
+    ) {
 
     var items by remember { mutableStateOf(SwipeConst.initialItems) }
     Scaffold(
@@ -80,8 +86,26 @@ fun MySwipePage() {
                     .semantics { contentDescription = "swiper" },
                 state = swiperState,
                 onSwiped = {
+                    //TODO i think here try to connect it to the likedorgs page
+                    //TODO: fix this
+                    //wait actually what you should do is populate the items list by getting allt he values from the viewmodel
+                    //those are the things that you should display, so here you should really just make it true
+                    //when u make it true, the things that appear on the likedorgs hsould change
+
+                   // AddToLiked(nonprofitToAdd = currentIndex)
+                    nonprofitViewModel.addTodoList(
+                        NonprofitItem(
+                            0, //id
+                            swiperState.currentIndex.toString(),
+                            swiperState.currentIndex.toString(),
+                            NonprofitType.Book,
+                            true
+                        )
+                    )
+
                     text = swiperState.currentIndex.toString()
                     Log.i("Swiper", "swipe done, current index : ${swiperState.currentIndex}")
+
                 }
             ) { index ->
                 SwipeCard(items[index])
