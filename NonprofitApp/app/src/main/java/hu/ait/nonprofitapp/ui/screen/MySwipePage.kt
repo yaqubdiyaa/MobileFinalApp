@@ -2,7 +2,9 @@ package hu.ait.nonprofitapp.ui.screen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,9 +17,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -35,9 +39,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -157,18 +164,8 @@ fun MySwipePage(
             SwiperTopAppBar(
                 modifier = Modifier.statusBarsPadding()
             )
-        },
-        bottomBar = {
-            Controller(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 56.dp)
-                    .navigationBarsPadding(),
-                onResetClick = {} //changed
-            )
         }
     ) { innerPaddings ->
-        var text by remember(items) { mutableStateOf("0") }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -204,13 +201,16 @@ fun MySwipePage(
 
                 }
             ) { index ->
-                SwipeCard(Color.Blue) //changed
-            }
+                SwipeCard(profile = items[index])
 
-            Spacer(modifier = Modifier.heightIn(min = 24.dp))
-            Text(text = "totalCount ${items.size}")
-            Spacer(modifier = Modifier.heightIn(min = 8.dp))
-            Text(text = "current Index $text")
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(16.dp)
+//                        .align(Alignment.BottomEnd),
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                )
+            }
         }
     }
 }
@@ -270,17 +270,6 @@ private fun RowScope.ControllerButton(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun SwiperTopAppBar(
-    modifier: Modifier = Modifier
-) {
-    TopAppBar(
-        modifier = modifier.fillMaxWidth(),
-        title = { Text(stringResource(id = R.string.app_name)) },
-    )
-}
-
 @Preview
 @Preview(uiMode = UI_MODE_NIGHT_YES, name = "topAppbar-dark")
 @Composable
@@ -291,21 +280,111 @@ private fun TopAppBarPreview() {
 }
 
 @Composable
-private fun SwipeCard(
-    color: Color,
+private fun SwipeCard(profile: Profile) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Image(
+            painter = rememberImagePainter(
+                data = profile.imageUrl,
+                builder = {
+                    crossfade(true)
+                }
+            ),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+        )
+
+        // Display the profile name on the bottom left corner
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .align(Alignment.BottomStart)
+        ) {
+            Text(
+                text = profile.name,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 60.sp
+            )
+        }
+    }
+}
+
+@Preview(widthDp = 80, heightDp = 80)
+@Composable
+private fun SwipeItemPreview() {
+    val profile = Profile("1", "Robin", "https://meadowsoutpatient.com/wp-content/uploads/2020/12/group-of-people-in-expressive-arts-therapy.jpg")
+    Surface {
+        SwipeCard(profile)
+    }
+}
+
+
+@Preview
+@Preview(uiMode = UI_MODE_NIGHT_YES, name = "topAppbar-dark")
+@Composable
+private fun MySwipePagePreview() {
+    MaterialTheme {
+        MySwipePage()
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SwiperTopAppBar(
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ProfileIcon(modifier = Modifier.clickable { /* Handle profile icon click */ })
+        AppIcon(modifier = Modifier.clickable { /* Handle app icon click */ })
+        HeartIcon(modifier = Modifier.clickable { /* Handle heart icon click */ })
+    }
+}
+
+@Composable
+private fun ProfileIcon(modifier: Modifier = Modifier, iconColor: Color = Color(0xFFeb586e)) {
+    Icon(
+        painter = painterResource(id = R.drawable.baseline_person_24),
+        contentDescription = null,
+        tint = iconColor,
         modifier = modifier
-            .fillMaxSize()
-            .background(color = color, shape = RoundedCornerShape(12.dp))
+            .size(64.dp)
+            .padding(8.dp),
     )
 }
 
-@Preview(widthDp = 80, heightDp = 160)
 @Composable
-private fun SwipeItemPreview() {
-    Surface {
-        SwipeCard(Color.Red)
-    }
+private fun AppIcon(modifier: Modifier = Modifier, iconColor: Color = Color(0xFFeb586e)) {
+    Icon(
+        painter = painterResource(id = R.drawable.baseline_local_fire_department_24),
+        contentDescription = null,
+        tint = iconColor,
+        modifier = modifier
+            .size(64.dp)
+            .padding(8.dp)
+    )
 }
+
+@Composable
+private fun HeartIcon(modifier: Modifier = Modifier, iconColor: Color = Color(0xFFeb586e)) {
+    Icon(
+        painter = painterResource(id = R.drawable.baseline_favorite_24),
+        contentDescription = null,
+        tint = iconColor,
+        modifier = modifier
+            .size(64.dp)
+            .padding(8.dp)
+    )
+}
+

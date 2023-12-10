@@ -19,6 +19,7 @@ import hu.ait.nonprofitapp.ui.screen.LikedOrgs
 import hu.ait.nonprofitapp.ui.screen.LoginScreen
 import androidx.compose.ui.tooling.preview.Preview
 import hu.ait.nonprofitapp.ui.screen.MySwipePage
+//import hu.ait.nonprofitapp.ui.screen.SwipeCard
 import hu.ait.nonprofitapp.ui.theme.NonprofitAppTheme
 
 
