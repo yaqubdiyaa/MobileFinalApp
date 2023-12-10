@@ -11,7 +11,8 @@ data class NonprofitItem(
     @ColumnInfo(name = "name") var title: String,
     @ColumnInfo(name = "description") var description: String,
     @ColumnInfo(name = "category") var category: NonprofitType,
-    @ColumnInfo(name = "isLiked") var isLiked: Boolean
+    @ColumnInfo(name = "isLiked") var isLiked: Boolean,
+    @ColumnInfo(name = "image") var image: String
     //TODO what else do we want? do we want a picture in the card?
 ) : Serializable
 

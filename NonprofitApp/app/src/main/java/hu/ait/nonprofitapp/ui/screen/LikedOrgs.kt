@@ -84,90 +84,6 @@ fun LikedOrgs(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-
-    LaunchedEffect(key1 = Unit) {
-        //create all the nonprofits and populate the app
-
-        val nonprofit1: NonprofitItem = NonprofitItem(
-            0, //id
-            "EcoImpact",
-            "this is a description of the nonprofit this " +
-                    "is a description of the nonprofitthis is a " +
-                    "description of the nonprofitthis is a description" +
-                    " of the nonprofitthis is a description of the " +
-                    "nonprofitthis is a description of the nonprofitthis is " +
-                    "a description of the nonprofitthis is a description of the " +
-                    "nonprofitthis is a description of the nonprofitthis is a " +
-                    "description of the nonprofitthis is a description of the nonprofit" +
-                    "this is a description of the nonprofitthis is a description of the " +
-                    "nonprofitthis is a description of the nonprofit",
-            NonprofitType.Environmental,
-            false
-        )
-
-        /*val nonprofit2: NonprofitItem = NonprofitItem(
-            1, //id
-            "Nonprofit name 2",
-            "this is a description of the nonprofit this " +
-                    "is a description of the nonprofitthis is a " +
-                    "description of the nonprofitthis is a description" +
-                    " of the nonprofitthis is a description of the " +
-                    "nonprofitthis is a description of the nonprofitthis is " +
-                    "a description of the nonprofitthis is a description of the " +
-                    "nonprofitthis is a description of the nonprofitthis is a " +
-                    "description of the nonprofitthis is a description of the nonprofit" +
-                    "this is a description of the nonprofitthis is a description of the " +
-                    "nonprofitthis is a description of the nonprofit",
-            NonprofitType.Arts_Culture,
-            false
-        )
-
-         */
-
-        val nonprofit3: NonprofitItem = NonprofitItem(
-            2, //id
-            "TechEd Innovators",
-            "TechEd Innovators is an education nonprofit specializing in technology-driven learning experiences " +
-                    "for underserved youth in urban communities. We .... more description here  more description here more description here " +
-                    "more description here more description here" +
-                    "more description here" +
-                    "more description here" +
-                    "more description here",
-            NonprofitType.Education,
-            false
-        )
-
-
-        val nonprofit4: NonprofitItem = NonprofitItem(
-            3, //id
-            "ThriveTogether",
-            "EmpowerPlus is a poverty-focused nonprofit" +
-                    " committed to breaking the cycle of poverty by providing " +
-                    "comprehensive support and resources to individuals " +
-                    "and families in economically disadvantaged communities.",
-            NonprofitType.Poverty,
-            false
-        )
-
-        nonprofitViewModel.addTodoList(
-            nonprofit1
-        )
-
-        /* nonprofitViewModel.addTodoList(
-             nonprofit2
-         )
-
-         */
-
-        nonprofitViewModel.addTodoList(
-            nonprofit3
-        )
-
-        nonprofitViewModel.addTodoList(
-            nonprofit4
-        )
-    }
-
     //TODO this is only supposed to get the liked stuff... confused...
     //its currently returning way more than the isliked
     val shoppingList by
@@ -205,6 +121,7 @@ fun LikedOrgs(
                     Icon(Icons.Filled.AddCircle, null)
                 }
             })
+
 
 
         Column(modifier = modifier.padding(10.dp)) {
@@ -521,7 +438,8 @@ private fun AddNewShoppingForm(
                                     shoppingTitle,
                                     shoppingDesc,
                                     shoppingCategory,
-                                    false
+                                    false,
+                                    "FAKEIMAGEURL"
                                 )
                             )
                         } else {

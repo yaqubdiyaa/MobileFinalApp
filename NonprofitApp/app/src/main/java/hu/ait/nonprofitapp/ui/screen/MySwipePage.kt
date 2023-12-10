@@ -74,7 +74,7 @@ fun MySwipePage(
     ) {
 
     val coroutineScope = rememberCoroutineScope()
-/*
+
 
     LaunchedEffect(key1 = Unit) {
         //create all the nonprofits and populate the app
@@ -93,7 +93,8 @@ fun MySwipePage(
                     "this is a description of the nonprofitthis is a description of the " +
                     "nonprofitthis is a description of the nonprofit",
             NonprofitType.Environmental,
-            false
+            false,
+            "https://i.pinimg.com/736x/da/d1/02/dad102d1b94320812cc9c1f207f58390.jpg"
         )
 
         /*val nonprofit2: NonprofitItem = NonprofitItem(
@@ -125,7 +126,8 @@ fun MySwipePage(
                     "more description here" +
                     "more description here",
             NonprofitType.Education,
-            false
+            false,
+            "https://wellbeingmagazine.s3.eu-west-1.amazonaws.com/wp-content/uploads/2019/11/Unicef-%E2%80%93-A-Vital-Education-Charity-in-Thailand.jpg"
         )
 
 
@@ -137,7 +139,8 @@ fun MySwipePage(
                     "comprehensive support and resources to individuals " +
                     "and families in economically disadvantaged communities.",
             NonprofitType.Poverty,
-            false
+            false,
+            "https://st4.depositphotos.com/26566316/28347/i/450/depositphotos_283476720-stock-photo-charity-food-feeding-poor-hands.jpg"
         )
 
         nonprofitViewModel.addTodoList(
@@ -160,13 +163,12 @@ fun MySwipePage(
     }
 
 
- */
 
 
-    var items by remember { mutableStateOf(SwipeConst.profileList) }
 
-   // val items by
-    //nonprofitViewModel.getAllShoppingList().collectAsState(emptyList())
+   // var items by remember { mutableStateOf(SwipeConst.profileList) }
+
+    val items by nonprofitViewModel.getAllShoppingList().collectAsState(emptyList())
 
     /* TODO
     for (item in items) {
@@ -175,11 +177,11 @@ fun MySwipePage(
 
      */
 
-   // var items by remember { mutableStateOf(SwipeConst.initialItems) }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             SwiperTopAppBar(
+                navController,
                 modifier = Modifier.statusBarsPadding()
             )
         }
@@ -200,26 +202,15 @@ fun MySwipePage(
                     .semantics { contentDescription = "swiper" },
                 state = swiperState,
                 onSwiped = {
-                    //TODO i think here try to connect it to the likedorgs page
-                    //TODO: fix this
-                    //wait actually what you should do is populate the items list by getting allt he values from the viewmodel
-                    //those are the things that you should display, so here you should really just make it true
-                    //when u make it true, the things that appear on the likedorgs hsould change
+                    //if left swipe:
 
-                    //TODO: whats the diff between a right and left swipe
-
-                    //nonprofitViewModel.changeShoppingState(items[swiperState.currentIndex], value = true)
-                    //text = items[swiperState.currentIndex].title
-
-                    // text = swiperState.currentIndex.toString()
+                    //else, add to liked org list
+                    nonprofitViewModel.changeShoppingState(items[swiperState.currentIndex],
+                        value = true)
                     Log.i("Swiper", "swipe done, current index : ${swiperState.currentIndex}")
-
-                    navController.navigate("likedorgs")
-
-
                 }
             ) { index ->
-                SwipeCard(profile = items[index])
+                SwipeCard(nonprofit = items[index])
 
 //                Row(
 //                    modifier = Modifier
@@ -287,7 +278,7 @@ private fun RowScope.ControllerButton(
         Text(text = text)
     }
 }
-
+/*
 @Preview
 @Preview(uiMode = UI_MODE_NIGHT_YES, name = "topAppbar-dark")
 @Composable
@@ -297,15 +288,17 @@ private fun TopAppBarPreview() {
     }
 }
 
+ */
+
 @Composable
-private fun SwipeCard(profile: Profile) {
+private fun SwipeCard(nonprofit:NonprofitItem) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
         Image(
             painter = rememberImagePainter(
-                data = profile.imageUrl,
+                data = nonprofit.image,
                 builder = {
                     crossfade(true)
                 }
@@ -325,7 +318,7 @@ private fun SwipeCard(profile: Profile) {
                 .align(Alignment.BottomStart)
         ) {
             Text(
-                text = profile.name,
+                text = nonprofit.title,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 60.sp
@@ -334,6 +327,8 @@ private fun SwipeCard(profile: Profile) {
     }
 }
 
+
+/*
 @Preview(widthDp = 80, heightDp = 80)
 @Composable
 private fun SwipeItemPreview() {
@@ -342,6 +337,8 @@ private fun SwipeItemPreview() {
         SwipeCard(profile)
     }
 }
+
+ */
 
 
 
@@ -364,6 +361,7 @@ private fun MySwipePagePreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SwiperTopAppBar(
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -373,7 +371,7 @@ private fun SwiperTopAppBar(
     ) {
         ProfileIcon(modifier = Modifier.clickable { /* Handle profile icon click */ })
         AppIcon(modifier = Modifier.clickable { /* Handle app icon click */ })
-        HeartIcon(modifier = Modifier.clickable { /* Handle heart icon click */ })
+        HeartIcon(modifier = Modifier.clickable { navController.navigate("likedorgs") })
     }
 }
 
