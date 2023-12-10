@@ -75,6 +75,7 @@ fun MySwipePage(
 
     val coroutineScope = rememberCoroutineScope()
 
+    /*
     LaunchedEffect(key1 = Unit) {
         //create all the nonprofits and populate the app
 
@@ -152,6 +153,8 @@ fun MySwipePage(
             nonprofit4
         )
     }
+
+     */
 
 
     var items by remember { mutableStateOf(SwipeConst.profileList) }
