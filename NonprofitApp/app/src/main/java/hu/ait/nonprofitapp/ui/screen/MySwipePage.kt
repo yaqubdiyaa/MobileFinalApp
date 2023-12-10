@@ -69,13 +69,13 @@ import hu.ait.nonprofitapp.data.Profile
 @ExperimentalMaterial3Api
 @Composable
 fun MySwipePage(
-    //navController: NavController,
+    navController: NavController,
     nonprofitViewModel: OrgViewModel = hiltViewModel(),
     ) {
 
     val coroutineScope = rememberCoroutineScope()
+/*
 
-    /*
     LaunchedEffect(key1 = Unit) {
         //create all the nonprofits and populate the app
 
@@ -96,7 +96,7 @@ fun MySwipePage(
             false
         )
 
-        val nonprofit2: NonprofitItem = NonprofitItem(
+        /*val nonprofit2: NonprofitItem = NonprofitItem(
             1, //id
             "Nonprofit name 2",
             "this is a description of the nonprofit this " +
@@ -112,6 +112,8 @@ fun MySwipePage(
             NonprofitType.Arts_Culture,
             false
         )
+
+         */
 
         val nonprofit3: NonprofitItem = NonprofitItem(
             2, //id
@@ -142,19 +144,23 @@ fun MySwipePage(
             nonprofit1
         )
 
-        nonprofitViewModel.addTodoList(
+       /* nonprofitViewModel.addTodoList(
             nonprofit2
         )
 
+        */
+
         nonprofitViewModel.addTodoList(
-            nonprofit3)
+            nonprofit3
+        )
 
         nonprofitViewModel.addTodoList(
             nonprofit4
         )
     }
 
-     */
+
+ */
 
 
     var items by remember { mutableStateOf(SwipeConst.profileList) }
@@ -208,7 +214,7 @@ fun MySwipePage(
                     // text = swiperState.currentIndex.toString()
                     Log.i("Swiper", "swipe done, current index : ${swiperState.currentIndex}")
 
-                    //navController.navigate("likedorgs")
+                    navController.navigate("likedorgs")
 
 
                 }
@@ -339,6 +345,7 @@ private fun SwipeItemPreview() {
 
 
 
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Preview(uiMode = UI_MODE_NIGHT_YES, name = "topAppbar-dark")
@@ -348,6 +355,8 @@ private fun MySwipePagePreview() {
         MySwipePage()
     }
 }
+
+ */
 
 
 

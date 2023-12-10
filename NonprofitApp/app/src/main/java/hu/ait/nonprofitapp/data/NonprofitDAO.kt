@@ -16,7 +16,7 @@ interface NonprofitDAO {
     fun getAllShopping(): Flow<List<NonprofitItem>>
 
 
-    @Query("SELECT * FROM nonprofittable WHERE isLiked")
+    @Query("SELECT * FROM nonprofittable WHERE isLiked=1")
     fun getAllLiked(): Flow<List<NonprofitItem>>
 
 
