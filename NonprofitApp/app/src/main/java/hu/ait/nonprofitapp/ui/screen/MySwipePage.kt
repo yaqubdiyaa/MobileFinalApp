@@ -25,9 +25,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,20 +41,116 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.github.lhoyong.swiper.Swiper
 import com.github.lhoyong.swiper.rememberSwiperState
 import hu.ait.nonprofitapp.R
 import hu.ait.nonprofitapp.data.NonprofitItem
 import hu.ait.nonprofitapp.data.NonprofitType
 
+
+//TODO
+//plan: try to run the orgsliked page and makes sure NOTHING APPEARS
+//then try to swipe, after you swipe on something, it should appear in the likedorgs
+//for testing, make it so that as soon as you rightswipe ONCE, it takes u to the orgsliked page so u can see
+//the thing you swiped right on appear on there!
+//move forward from there
+
 @ExperimentalMaterial3Api
 @Composable
 fun MySwipePage(
+    navController: NavController,
     nonprofitViewModel: OrgViewModel = hiltViewModel(),
-
     ) {
 
-    var items by remember { mutableStateOf(SwipeConst.initialItems) }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = Unit) {
+        //create all the nonprofits and populate the app
+
+        val nonprofit1: NonprofitItem = NonprofitItem(
+            0, //id
+            "EcoImpact",
+            "this is a description of the nonprofit this " +
+                    "is a description of the nonprofitthis is a " +
+                    "description of the nonprofitthis is a description" +
+                    " of the nonprofitthis is a description of the " +
+                    "nonprofitthis is a description of the nonprofitthis is " +
+                    "a description of the nonprofitthis is a description of the " +
+                    "nonprofitthis is a description of the nonprofitthis is a " +
+                    "description of the nonprofitthis is a description of the nonprofit" +
+                    "this is a description of the nonprofitthis is a description of the " +
+                    "nonprofitthis is a description of the nonprofit",
+            NonprofitType.Environmental,
+            false
+        )
+
+        val nonprofit2: NonprofitItem = NonprofitItem(
+            1, //id
+            "Nonprofit name 2",
+            "this is a description of the nonprofit this " +
+                    "is a description of the nonprofitthis is a " +
+                    "description of the nonprofitthis is a description" +
+                    " of the nonprofitthis is a description of the " +
+                    "nonprofitthis is a description of the nonprofitthis is " +
+                    "a description of the nonprofitthis is a description of the " +
+                    "nonprofitthis is a description of the nonprofitthis is a " +
+                    "description of the nonprofitthis is a description of the nonprofit" +
+                    "this is a description of the nonprofitthis is a description of the " +
+                    "nonprofitthis is a description of the nonprofit",
+            NonprofitType.Arts_Culture,
+            false
+        )
+
+        val nonprofit3: NonprofitItem = NonprofitItem(
+            2, //id
+            "TechEd Innovators",
+            "TechEd Innovators is an education nonprofit specializing in technology-driven learning experiences " +
+                    "for underserved youth in urban communities. We .... more description here  more description here more description here " +
+                    "more description here more description here" +
+                    "more description here" +
+                    "more description here" +
+                    "more description here",
+            NonprofitType.Education,
+            false
+        )
+
+
+        val nonprofit4: NonprofitItem = NonprofitItem(
+            3, //id
+            "ThriveTogether",
+            "EmpowerPlus is a poverty-focused nonprofit" +
+                    " committed to breaking the cycle of poverty by providing " +
+                    "comprehensive support and resources to individuals " +
+                    "and families in economically disadvantaged communities.",
+            NonprofitType.Poverty,
+            false
+        )
+
+        nonprofitViewModel.addTodoList(
+            nonprofit1
+        )
+
+        nonprofitViewModel.addTodoList(
+            nonprofit2
+        )
+
+        nonprofitViewModel.addTodoList(
+            nonprofit3)
+
+        nonprofitViewModel.addTodoList(
+            nonprofit4
+        )
+    }
+
+    val items by
+    nonprofitViewModel.getAllShoppingList().collectAsState(emptyList())
+
+    for (item in items) {
+        nonprofitViewModel.setFalse(item)
+    }
+
+   // var items by remember { mutableStateOf(SwipeConst.initialItems) }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -65,7 +164,7 @@ fun MySwipePage(
                     .fillMaxWidth()
                     .heightIn(min = 56.dp)
                     .navigationBarsPadding(),
-                onResetClick = { items = SwipeConst.newItems }
+                onResetClick = {} //changed
             )
         }
     ) { innerPaddings ->
@@ -92,23 +191,20 @@ fun MySwipePage(
                     //those are the things that you should display, so here you should really just make it true
                     //when u make it true, the things that appear on the likedorgs hsould change
 
-                   // AddToLiked(nonprofitToAdd = currentIndex)
-                    nonprofitViewModel.addTodoList(
-                        NonprofitItem(
-                            0, //id
-                            swiperState.currentIndex.toString(),
-                            swiperState.currentIndex.toString(),
-                            NonprofitType.Book,
-                            true
-                        )
-                    )
+                    //TODO: whats the diff between a right and left swipe
 
-                    text = swiperState.currentIndex.toString()
+                    //nonprofitViewModel.changeShoppingState(items[swiperState.currentIndex], value = true)
+                    //text = items[swiperState.currentIndex].title
+
+                    // text = swiperState.currentIndex.toString()
                     Log.i("Swiper", "swipe done, current index : ${swiperState.currentIndex}")
+
+                    navController.navigate("likedorgs")
+
 
                 }
             ) { index ->
-                SwipeCard(items[index])
+                SwipeCard(Color.Blue) //changed
             }
 
             Spacer(modifier = Modifier.heightIn(min = 24.dp))

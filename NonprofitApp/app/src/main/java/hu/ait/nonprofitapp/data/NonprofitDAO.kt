@@ -15,12 +15,12 @@ interface NonprofitDAO {
     @Query("SELECT * from nonprofittable")
     fun getAllShopping(): Flow<List<NonprofitItem>>
 
-    /*
-    @Query("SELECT * FROM nonprofittable WHERE category = 'Food'")
-    fun getAllFood(): Flow<List<NonprofitItem>>
+
+    @Query("SELECT * FROM nonprofittable WHERE isLiked")
+    fun getAllLiked(): Flow<List<NonprofitItem>>
 
 
-
+/*
     @Query("SELECT * from nonprofittable WHERE id = :id")
     fun getItem(id: Int): Flow<NonprofitItem>
  */

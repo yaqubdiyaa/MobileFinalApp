@@ -1,5 +1,6 @@
 package hu.ait.nonprofitapp.ui.screen
 
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import hu.ait.nonprofitapp.data.NonprofitItem
+import kotlinx.coroutines.runBlocking
 
 @HiltViewModel
 class OrgViewModel @Inject constructor(
@@ -16,6 +18,10 @@ class OrgViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun getAllShoppingList(): Flow<List<NonprofitItem>> {
+        return nonprofitDAO.getAllShopping()
+    }
+
+    fun getAllLiked(): Flow<List<NonprofitItem>> {
         return nonprofitDAO.getAllShopping()
     }
 
@@ -39,10 +45,18 @@ class OrgViewModel @Inject constructor(
     }
 
     fun changeShoppingState(todoItem: NonprofitItem, value: Boolean) {
-        val newTodoItem = todoItem.copy()
-        newTodoItem.isLiked = value //used to be isDone
+        //val newTodoItem = todoItem.copy()
+        todoItem.isLiked = value //used to be isDone
         viewModelScope.launch {
-            nonprofitDAO.update(newTodoItem)
+            nonprofitDAO.update(todoItem)
+        }
+    }
+
+    //TODO
+    fun setFalse(todoItem: NonprofitItem) {
+        todoItem.isLiked = false
+        viewModelScope.launch {
+            nonprofitDAO.update(todoItem)
         }
     }
 

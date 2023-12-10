@@ -16,7 +16,7 @@ data class NonprofitItem(
 ) : Serializable
 
 enum class NonprofitType {
-    None, Book, Food, Electronic;
+    None, Environmental, Poverty, Rights_Justice, Education, Arts_Culture;
 
     /*
     //returns a drawable

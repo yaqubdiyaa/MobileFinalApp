@@ -45,23 +45,36 @@ class MainActivity : ComponentActivity() {
 
 
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavGraph(
     navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
         navController = navController,
-        startDestination = "loginscreen"
+        startDestination = "swipescreen"
     ) {
-        composable("loginscreen") {
-            LikedOrgs()
+        composable("swipescreen") {
+            MySwipePage(navController)
+            //LikedOrgs()
             //LoginScreen(
               //  onLoginSuccess = {
                    // navController.navigate("likedorgs")
                 //}
             //)
         }
+        composable("likedorgs") {
+            LikedOrgs()
+            //LoginScreen(
+            //  onLoginSuccess = {
+            // navController.navigate("likedorgs")
+            //}
+            //)
+        }
     }
 }
+
+
 
 

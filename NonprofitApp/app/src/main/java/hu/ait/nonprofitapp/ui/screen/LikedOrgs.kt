@@ -83,8 +83,11 @@ fun LikedOrgs(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
+
+    //TODO this is only supposed to get the liked stuff... confused...
+    //its currently returning way more than the isliked
     val shoppingList by
-    nonprofitViewModel.getAllShoppingList().collectAsState(emptyList())
+    nonprofitViewModel.getAllLiked().collectAsState(emptyList())
 
     var showAddDialog by rememberSaveable {
         mutableStateOf(false)
@@ -407,11 +410,11 @@ private fun AddNewShoppingForm(
                     preselected = preselected,
                     onSelectionChanged = { selected ->
                         if (selected == "Food") {
-                            shoppingCategory = NonprofitType.Food
+                            shoppingCategory = NonprofitType.Environmental
                         } else if (selected == "Book") {
-                            shoppingCategory = NonprofitType.Book
+                            shoppingCategory = NonprofitType.Poverty
                         } else if (selected == "Electronic"){
-                            shoppingCategory = NonprofitType.Electronic
+                            shoppingCategory = NonprofitType.Rights_Justice
                         } else {
                             shoppingCategory = NonprofitType.None
                         }
