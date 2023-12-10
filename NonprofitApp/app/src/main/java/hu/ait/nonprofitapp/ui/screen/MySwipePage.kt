@@ -47,13 +47,16 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.github.lhoyong.swiper.Swiper
 import com.github.lhoyong.swiper.rememberSwiperState
 import hu.ait.nonprofitapp.R
 import hu.ait.nonprofitapp.data.NonprofitItem
 import hu.ait.nonprofitapp.data.NonprofitType
+import hu.ait.nonprofitapp.data.Profile
 
 
 //TODO
@@ -150,12 +153,18 @@ fun MySwipePage(
         )
     }
 
-    val items by
-    nonprofitViewModel.getAllShoppingList().collectAsState(emptyList())
 
+    var items by remember { mutableStateOf(SwipeConst.profileList) }
+
+   // val items by
+    //nonprofitViewModel.getAllShoppingList().collectAsState(emptyList())
+
+    /* TODO
     for (item in items) {
         nonprofitViewModel.setFalse(item)
     }
+
+     */
 
    // var items by remember { mutableStateOf(SwipeConst.initialItems) }
     Scaffold(
@@ -326,6 +335,7 @@ private fun SwipeItemPreview() {
 }
 
 
+/*
 @Preview
 @Preview(uiMode = UI_MODE_NIGHT_YES, name = "topAppbar-dark")
 @Composable
@@ -334,6 +344,8 @@ private fun MySwipePagePreview() {
         MySwipePage()
     }
 }
+
+ */
 
 
 @OptIn(ExperimentalMaterial3Api::class)
