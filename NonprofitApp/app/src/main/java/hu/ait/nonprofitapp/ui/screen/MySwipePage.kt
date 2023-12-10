@@ -69,7 +69,7 @@ import hu.ait.nonprofitapp.data.Profile
 @ExperimentalMaterial3Api
 @Composable
 fun MySwipePage(
-    navController: NavController,
+    //navController: NavController,
     nonprofitViewModel: OrgViewModel = hiltViewModel(),
     ) {
 
@@ -205,7 +205,7 @@ fun MySwipePage(
                     // text = swiperState.currentIndex.toString()
                     Log.i("Swiper", "swipe done, current index : ${swiperState.currentIndex}")
 
-                    navController.navigate("likedorgs")
+                    //navController.navigate("likedorgs")
 
 
                 }
@@ -335,7 +335,8 @@ private fun SwipeItemPreview() {
 }
 
 
-/*
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Preview(uiMode = UI_MODE_NIGHT_YES, name = "topAppbar-dark")
 @Composable
@@ -345,7 +346,7 @@ private fun MySwipePagePreview() {
     }
 }
 
- */
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)

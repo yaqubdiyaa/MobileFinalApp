@@ -35,8 +35,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavGraph()
-                    //MySwipePage()
+                    //NavGraph()
+                    //MySwipePagePreview()
+                    MySwipePage()
                 }
 
             }
@@ -57,7 +58,7 @@ fun NavGraph(
         startDestination = "swipescreen"
     ) {
         composable("swipescreen") {
-            MySwipePage(navController)
+           // MySwipePage(navController)
             //LikedOrgs()
             //LoginScreen(
               //  onLoginSuccess = {
