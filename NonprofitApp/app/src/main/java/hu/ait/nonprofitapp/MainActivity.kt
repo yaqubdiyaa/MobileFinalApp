@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import hu.ait.nonprofitapp.ui.screen.MySwipePage
+//import hu.ait.nonprofitapp.ui.screen.SwipeCard
 import hu.ait.nonprofitapp.ui.theme.NonprofitAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,6 +28,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 //                    Greeting("Android")
                     MySwipePage()
+//                    SwipeCard()
                 }
             }
         }
