@@ -112,26 +112,7 @@ fun LikedOrgs(
                 }) {
                     Icon(Icons.Filled.Delete, null)
                 }
-
-                //add item button
-                IconButton(onClick = {
-                    shoppingToEdit = null //not editing tho!
-                    showAddDialog = true //dialog will pop up
-                }) {
-                    Icon(Icons.Filled.AddCircle, null)
-                }
             })
-
-
-
-        Column(modifier = modifier.padding(10.dp)) {
-            if (showAddDialog) {
-                AddNewShoppingForm(
-                    nonprofitViewModel,
-                    { showAddDialog = false },
-                    shoppingToEdit
-                )
-            }
 
             LazyColumn(modifier = Modifier.fillMaxHeight()) {
                 items(shoppingList) {
@@ -143,7 +124,6 @@ fun LikedOrgs(
             }
         }
     }
-}
 
 @Composable
 fun ShoppingCard(
@@ -194,21 +174,12 @@ fun ShoppingCard(
                  */
 
 
-                Column() {
+
+                Column(Modifier.weight(1f)) {
                     Text(shoppingItem.title, style = TextStyle(fontSize = 40.sp,
                         fontWeight = FontWeight.SemiBold, color = Color.Black))
                     Text(shoppingItem.description)
                 }
-                /*
-                Text(shoppingItem.title, modifier = Modifier.fillMaxWidth(0.2f))
-                Spacer(modifier = Modifier.fillMaxSize(0.35f))
-
-                Checkbox(
-                    checked = shoppingItem.isLiked,
-                    onCheckedChange = { onShoppingCheckChange(it) }
-                )
-                 */
-               Spacer(modifier = Modifier.width(150.dp))
                 Icon(
                     imageVector = Icons.Filled.Delete,
                     contentDescription = "Delete",
@@ -303,232 +274,3 @@ private fun openDonate(
     }
 }
 }
-
-//TODO is this needed
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-public fun AddToLiked(
-    nonprofitViewModel: OrgViewModel = hiltViewModel(),
-    //TODO figure out if you are passing in name or the full nonprofitItem?
-    //or are you creating the item here
-    //actually i think you should pass in the full item
-    nonprofitToAdd: NonprofitItem? = null
-) {
-    AddNewShoppingForm(nonprofitViewModel = nonprofitViewModel,
-        {}, nonprofitToAdd
-    )
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-private fun AddNewShoppingForm(
-    nonprofitViewModel: OrgViewModel,
-    onDialogDismiss: () -> Unit = {},
-    nonprofitToEdit: NonprofitItem? = null
-) {
-    Dialog(
-        onDismissRequest = onDialogDismiss
-    ) {
-
-        var shoppingTitle by rememberSaveable {
-            mutableStateOf(nonprofitToEdit?.title ?: "")
-        }
-
-        var shoppingDesc by rememberSaveable {
-            mutableStateOf(nonprofitToEdit?.description ?: "")
-        }
-
-
-        var shoppingCategory by rememberSaveable {
-            mutableStateOf(
-                nonprofitToEdit?.category ?: NonprofitType.None //initial value
-            )
-        }
-
-        var inputErrorState by rememberSaveable {
-            mutableStateOf(false)
-        }
-
-        var errorField by rememberSaveable {
-            mutableStateOf("")
-        }
-
-        var expanded by rememberSaveable { mutableStateOf(false) } // initial value
-
-        fun validate() {
-            if (shoppingTitle == "") {
-                inputErrorState = true
-                errorField = "Title"
-            }
-
-            if (shoppingCategory == NonprofitType.None) {
-                inputErrorState = true
-                errorField = "Category"
-            }
-
-            if (shoppingDesc == "") {
-                inputErrorState = true
-                errorField = "Description"
-            }
-        }
-
-        Column(
-            Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.secondaryContainer,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .padding(10.dp)
-        ) {
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = shoppingTitle,
-                onValueChange = {
-                    shoppingTitle = it
-                },
-                label = { Text(text = "Item name") }
-            )
-
-
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = shoppingDesc,
-                onValueChange = {
-                    shoppingDesc = it
-                },
-                label = { Text(text = "Description") }
-            )
-
-            var preselected = ""
-            if (nonprofitToEdit != null) {
-                preselected = nonprofitToEdit.category.toString()
-            }
-
-            Row {
-                SpinnerSample(
-                    list = listOf("Food", "Book", "Electronic"),
-                    //if existing item and editing take that one
-                    preselected = preselected,
-                    onSelectionChanged = { selected ->
-                        if (selected == "Food") {
-                            shoppingCategory = NonprofitType.Environmental
-                        } else if (selected == "Book") {
-                            shoppingCategory = NonprofitType.Poverty
-                        } else if (selected == "Electronic"){
-                            shoppingCategory = NonprofitType.Rights_Justice
-                        } else {
-                            shoppingCategory = NonprofitType.None
-                        }
-                        expanded = false
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                )
-            }
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Button(onClick = {
-                    validate()
-                    if (!inputErrorState) {
-                        if (nonprofitToEdit == null) {
-                            nonprofitViewModel.addTodoList(
-                                NonprofitItem(
-                                    0, //id
-                                    shoppingTitle,
-                                    shoppingDesc,
-                                    shoppingCategory,
-                                    false,
-                                    "FAKEIMAGEURL"
-                                )
-                            )
-                        } else {
-                            var shoppingEdited = nonprofitToEdit.copy(
-                                title = shoppingTitle,
-                                description = shoppingDesc,
-                                category = shoppingCategory
-                            )
-                           nonprofitViewModel.editShoppingItem(shoppingEdited)
-                        }
-                        onDialogDismiss()
-                    }
-                }) {
-                    Text(text = "Save")
-                }
-
-                if (inputErrorState) {
-                    AlertDialog(
-                        onDismissRequest = {
-                            inputErrorState = false
-                            errorField = ""},
-                        title = {
-                            Text(errorField)
-                        },
-                        confirmButton = {
-                            Button(
-                                onClick = {inputErrorState = false
-                                    errorField = ""})
-                            {
-                                Text(text = "OK")
-                            }})
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun SpinnerSample(
-    list: List<String>,
-    preselected: String,
-    onSelectionChanged: (myData: String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var selected by rememberSaveable { mutableStateOf(preselected) }
-    var expanded by rememberSaveable { mutableStateOf(false) } // initial value
-    OutlinedCard(
-        modifier = modifier.clickable {
-            expanded = !expanded
-        }
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top,
-        ) {
-            Text(
-                text = selected,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            )
-            Icon(
-                Icons.Outlined.ArrowDropDown, null, modifier =
-                Modifier.padding(8.dp)
-            )
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                list.forEach { listEntry ->
-                    DropdownMenuItem(
-                        onClick = {
-                            selected = listEntry
-                            expanded = false
-                            onSelectionChanged(selected)
-                        },
-                        text = {
-                            Text(
-                                text = listEntry,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .align(Alignment.Start)
-                            )
-                        },
-                    )
-                }
-            }
-        }
-    }
-}
-

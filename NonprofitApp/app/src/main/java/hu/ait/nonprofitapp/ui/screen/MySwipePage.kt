@@ -147,12 +147,6 @@ fun MySwipePage(
             nonprofit1
         )
 
-       /* nonprofitViewModel.addTodoList(
-            nonprofit2
-        )
-
-        */
-
         nonprofitViewModel.addTodoList(
             nonprofit3
         )
@@ -202,11 +196,8 @@ fun MySwipePage(
                     .semantics { contentDescription = "swiper" },
                 state = swiperState,
                 onSwiped = {
-                    //if left swipe:
-
-                    //else, add to liked org list
-                    nonprofitViewModel.changeShoppingState(items[swiperState.currentIndex],
-                        value = true)
+                    //if right swipe:
+                    nonprofitViewModel.changeShoppingState(items[swiperState.currentIndex], value = true)
                     Log.i("Swiper", "swipe done, current index : ${swiperState.currentIndex}")
                 }
             ) { index ->

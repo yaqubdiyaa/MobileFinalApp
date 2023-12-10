@@ -35,8 +35,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavGraph()
-                    //LikedOrgs()
+                    //NavGraph()
+                    LikedOrgs()
                     //MySwipePagePreview()
                     //MySwipePage()
                 }
