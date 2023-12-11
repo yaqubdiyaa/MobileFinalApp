@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,6 +38,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -48,6 +50,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.LaunchedEffect
@@ -71,6 +74,7 @@ import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import hu.ait.nonprofitapp.data.NonprofitItem
 import hu.ait.nonprofitapp.data.NonprofitType
 
@@ -99,20 +103,7 @@ fun LikedOrgs(
 
 
     Column {
-        TopAppBar(
-            title = {
-                Text("OURAPPNAME")
-            },
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer
-            ),
-            actions = {
-                IconButton(onClick = {
-                    nonprofitViewModel.clearAll()
-                }) {
-                    Icon(Icons.Filled.Delete, null)
-                }
-            })
+        SwiperTopAppBar(navController = rememberNavController(), modifier = Modifier)
 
             LazyColumn(modifier = Modifier.fillMaxHeight()) {
                 items(shoppingList) {
@@ -161,38 +152,30 @@ fun ShoppingCard(
                 verticalAlignment = Alignment.CenterVertically,
                 //horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                /*
-                TODO: CATEGORY ICON
+//
                 Image(
                     painter = painterResource(id = shoppingItem.category.getIcon()),
                     contentDescription = "Category",
                     modifier = Modifier
                         .size(55.dp)
-                        .padding(end = 10.dp)
+                        .padding(end = 30.dp)
                 )
 
-                 */
-
-
-
-                Column(Modifier.weight(1f)) {
+                Column(Modifier
+                    .weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(10.dp) // Space between items
+                ) {
                     Text(shoppingItem.title, style = TextStyle(fontSize = 40.sp,
                         fontWeight = FontWeight.SemiBold, color = Color.Black))
                     Text(shoppingItem.description)
+                    Button(
+                        onClick = { openDialogue = !openDialogue },
+                        colors = ButtonDefaults.buttonColors(Color(0xFFeb586e))
+                    )
+                     {
+                        Text(text = "Donate")
+                    }
                 }
-                Icon(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = "Delete",
-                    modifier = Modifier.clickable {
-                        onRemoveItem()
-                    },
-                    tint = Color.Red,
-                )
-
-                Button(onClick = { openDialogue = !openDialogue }) {
-                    Text(text = "Donate")
-                }
-
             }
 
             if (openDialogue) {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "558716758964",
+    "project_id": "nonprofitapp-d9873",
+    "storage_bucket": "nonprofitapp-d9873.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558716758964:android:a035c5c21fa95cffe960e1",
+        "android_client_info": {
+          "package_name": "hu.ait.nonprofitapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIblUnbg7ThPNt2Fx72i21yt8zkAiY2Ro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

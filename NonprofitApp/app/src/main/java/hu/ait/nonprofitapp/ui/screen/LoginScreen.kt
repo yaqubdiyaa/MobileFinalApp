@@ -35,26 +35,26 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun LoginScreen(
     loginViewModel: LoginViewModel = viewModel(),
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    navController: NavController,
 ) {
 
-    //TODO: NEED TO FIGURE OUT HOW FIREBASE WORKS HAHA
-    //A LOT OF THE
     var showPassword by rememberSaveable { mutableStateOf(false) }
-    var email by rememberSaveable { mutableStateOf("cutierobin@bbgirl.com") }
-    var password by rememberSaveable { mutableStateOf("123456") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
 
    val coroutineScope = rememberCoroutineScope()
 
     Box() {
         Text(
-            text = "Title of our APP lmao",
+            text = "GiveSwipe",
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 50.dp),
@@ -114,13 +114,21 @@ fun LoginScreen(
                 })
 
                 OutlinedButton(onClick = {
+
+                    navController.navigate("swipescreen")
+
+                    /*
                     coroutineScope.launch {
                         val result = loginViewModel.loginUser(email,password)
-                        //TODO: (uncomment when firebase set up)
-                         //if (result?.user != null) {
-                          //  onLoginSuccess()
-                        //}
+                         if (result?.user != null) {
+                            onLoginSuccess()
+                        }
                     }
+
+                     */
+
+
+
                 }) {
                     Text(text = "Login")
                 }
@@ -136,16 +144,18 @@ fun LoginScreen(
                 .padding(bottom = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            when (loginViewModel.loginUiState) {
-                is LoginUiState.Loading -> CircularProgressIndicator()
-                is LoginUiState.RegisterSuccess -> Text(text = "Registration OK")
-                is LoginUiState.Error -> Text(text = "Error: ${
-                    (loginViewModel.loginUiState as LoginUiState.Error).error
+            when (loginViewModel.loginUIState) {
+                is LoginViewModel.LoginUiState.Init -> {}
+                is LoginViewModel.LoginUiState.Loading -> CircularProgressIndicator()
+                is LoginViewModel.LoginUiState.RegisterSuccess -> Text(text = "Registration OK")
+                is LoginViewModel.LoginUiState.LoginSuccess -> Text(text = "Login OK")
+                is LoginViewModel.LoginUiState.Error -> Text(text = "Error: ${
+                    (loginViewModel.loginUIState as LoginViewModel.LoginUiState.Error).error
                 }")
-                is LoginUiState.LoginSuccess -> Text(text = "Login OK")
-                LoginUiState.Init -> {}
             }
 
         }
     }
 }
+
+//TODO: make sure after logging in, it takes you to the swiping page  (navbar)

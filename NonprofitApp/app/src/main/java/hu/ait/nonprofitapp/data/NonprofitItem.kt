@@ -3,6 +3,7 @@ package hu.ait.nonprofitapp.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import hu.ait.nonprofitapp.R
 import java.io.Serializable
 
 @Entity(tableName = "nonprofittable")
@@ -19,15 +20,15 @@ data class NonprofitItem(
 enum class NonprofitType {
     None, Environmental, Poverty, Rights_Justice, Education, Arts_Culture;
 
-    /*
+//    /*
     //returns a drawable
     fun getIcon(): Int {
-        return if (this == Book) R.drawable.book
-        else if (this == Food) R.drawable.food
-        else R.drawable.electronics
+        return if (this == Environmental) R.drawable.baseline_emoji_nature_24
+        else if (this == Poverty) R.drawable.baseline_fastfood_24
+        else R.drawable.baseline_menu_book_24
     }
 
-     */
+//     */
 
 }
 
